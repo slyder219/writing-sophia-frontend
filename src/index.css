@@ -1,0 +1,17 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+main {
+  max-width: 40rem;
+  margin: 20vh auto 0;
+  padding: 0 1rem;
+  text-align: center;
+}
+
+.status {
+  color: #666;
+  font-size: 0.9rem;
+}
