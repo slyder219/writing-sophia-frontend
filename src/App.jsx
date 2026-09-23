@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
+
+const STATUS_TEXT = {
+  checking: 'Checking backend connection…',
+  connected: '✓ Connected to backend',
+  failed: '✗ Could not reach backend',
+}
 
 export default function App() {
-  const [status, setStatus] = useState('checking…')
+  const [status, setStatus] = useState('checking')
 
   useEffect(() => {
-    fetch(`${API_URL}/health`)
+    fetch(`${BACKEND_URL}/health`)
       .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
-      .then((data) => setStatus(data.status))
-      .catch(() => setStatus('unreachable'))
+      .then((data) => setStatus(data.status === 'ok' ? 'connected' : 'failed'))
+      .catch(() => setStatus('failed'))
   }, [])
 
   return (
     <main>
       <h1>Writing Sophia</h1>
       <p>Coming soon.</p>
-      <p className="status">Backend: {status}</p>
+      <p className={`status status-${status}`}>{STATUS_TEXT[status]}</p>
     </main>
   )
 }

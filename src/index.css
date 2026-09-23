@@ -15,3 +15,11 @@ main {
   color: #666;
   font-size: 0.9rem;
 }
+
+.status-connected {
+  color: #1a7f37;
+}
+
+.status-failed {
+  color: #cf222e;
+}
