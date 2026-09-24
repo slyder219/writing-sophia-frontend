@@ -110,3 +110,50 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+/* Manage: works grouped by category, drag between groups */
+.studio .manage-group {
+  border: 1px dashed transparent;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem 0.75rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.studio .manage-group h4 {
+  margin: 0.5rem 0;
+}
+
+.studio .manage-group.drop-target {
+  background: #eef4ff;
+  border-color: #6b8fd6;
+}
+
+.studio .empty-group {
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px dashed #ccc;
+  text-align: center;
+}
+
+.studio .works li[draggable='true'] {
+  cursor: grab;
+  background: #fff;
+}
+
+.studio .works li.dragging {
+  opacity: 0.4;
+}
+
+.studio .drag-handle {
+  color: #999;
+  user-select: none;
+}
+
+.studio .work-actions {
+  align-items: center;
+}
+
+.studio .manage-group .works {
+  margin: 0;
+  gap: 0.5rem;
+}
