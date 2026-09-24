@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { authClient } from '../lib/auth'
+import { setSignedInHint } from '../lib/signedInHint'
 import AuthForm from './AuthForm'
 import Dashboard from './Dashboard'
 import './studio.css'
@@ -8,6 +10,11 @@ import './studio.css'
 // download the auth SDK.
 export default function Studio() {
   const session = authClient.useSession()
+  const signedIn = Boolean(session.data)
+
+  useEffect(() => {
+    if (!session.isPending) setSignedInHint(signedIn)
+  }, [session.isPending, signedIn])
 
   return (
     <div className="studio">

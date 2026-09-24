@@ -17,22 +17,19 @@ export default function Home() {
   if (!library) return <Layout><p className="quiet">…</p></Layout>
 
   const { works, categories } = library
-  // Only categories that have something in them get a tab
+  // One tab per category that has something in it; the page opens on the first
   const tabs = categories.filter((c) => works.some((w) => w.category_id === c.id))
-  const active = tabs.find((c) => c.slug === params.get('c'))
-  const shown = active ? works.filter((w) => w.category_id === active.id) : works
+  const active = tabs.find((c) => c.slug === params.get('c')) ?? tabs[0]
+  const shown = active ? works.filter((w) => w.category_id === active.id) : []
 
-  const choose = (slug) => setParams(slug ? { c: slug } : {}, { replace: true })
+  const choose = (slug) => setParams({ c: slug }, { replace: true })
 
   return (
     <Layout>
-      {tabs.length > 1 && (
+      {tabs.length > 0 && (
         <nav className="category-tabs" aria-label="Categories">
-          <button className={!active ? 'active' : ''} onClick={() => choose(null)}>
-            All
-          </button>
           {tabs.map((c) => (
-            <button key={c.id} className={active?.id === c.id ? 'active' : ''} onClick={() => choose(c.slug)}>
+            <button key={c.id} className={active.id === c.id ? 'active' : ''} onClick={() => choose(c.slug)}>
               {c.name}
             </button>
           ))}

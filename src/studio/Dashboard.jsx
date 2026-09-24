@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { api } from '../lib/api'
 import AccountTab from './AccountTab'
 import CategoriesTab from './CategoriesTab'
@@ -15,7 +16,10 @@ const TABS = [
 export default function Dashboard() {
   const [me, setMe] = useState(null)
   const [error, setError] = useState(null)
-  const [tab, setTab] = useState('account')
+  // Tab lives in the URL so the public editor bar can link straight to it
+  const [params, setParams] = useSearchParams()
+  const tab = params.get('tab') ?? 'account'
+  const setTab = (id) => setParams({ tab: id }, { replace: true })
   const [categories, setCategories] = useState([])
 
   // Shared by every editor tab so a category added anywhere shows up everywhere
