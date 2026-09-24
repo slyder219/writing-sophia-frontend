@@ -1,6 +1,6 @@
 /* Utilitarian editor UI, scoped under .studio */
 .studio {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--bar-height));
   font-family: system-ui, sans-serif;
   color: #1a1a1a;
   background: #fafafa;
