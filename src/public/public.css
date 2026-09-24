@@ -1,0 +1,235 @@
+/* The public site: small sheets of paper on a quiet desk */
+:root {
+  --desk: #ece7df;
+  --paper: #fffdf8;
+  --ink: #2b2723;
+  --ink-soft: #7a7168;
+  --rule: #d8d0c4;
+  --serif-display: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  --serif-text: 'EB Garamond', Georgia, serif;
+}
+
+body {
+  margin: 0;
+  background: var(--desk);
+  color: var(--ink);
+}
+
+.site {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--serif-text);
+}
+
+.site main {
+  flex: 1;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem 5rem;
+  box-sizing: border-box;
+}
+
+.site a {
+  color: inherit;
+}
+
+.site-header {
+  text-align: center;
+  padding: 4rem 1rem 2rem;
+}
+
+.site-name {
+  font-family: var(--serif-display);
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+}
+
+.site-footer {
+  text-align: center;
+  padding: 2rem 1rem 3rem;
+  font-size: 0.85rem;
+}
+
+.site-footer a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.quiet {
+  text-align: center;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* Category tabs */
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin: 0 0 3rem;
+}
+
+.category-tabs button {
+  font-family: var(--serif-display);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+
+.category-tabs button:hover,
+.category-tabs button.active {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* Paper */
+.paper {
+  display: block;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow:
+    0 1px 1px rgba(60, 45, 30, 0.06),
+    0 4px 10px rgba(60, 45, 30, 0.08),
+    0 18px 30px -18px rgba(60, 45, 30, 0.25);
+}
+
+.paper h1,
+.paper h2 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+.paper-text {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* The grid of little sheets */
+.papers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 2.5rem 2rem;
+}
+
+.papers li {
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.25s ease;
+}
+
+.papers li:hover,
+.papers li:focus-within {
+  transform: rotate(0deg) translateY(-4px);
+}
+
+.paper-mini {
+  position: relative;
+  height: 20rem;
+  padding: 1.75rem 1.5rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.paper-mini h2 {
+  font-size: 1.45rem;
+}
+
+.paper-mini .paper-text {
+  font-size: 0.95rem;
+}
+
+/* Fade the excerpt into the bottom of the sheet */
+.paper-mini::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 5rem;
+  background: linear-gradient(to bottom, rgba(255, 253, 248, 0), var(--paper) 85%);
+}
+
+.paper-mini:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+/* One sheet, full length, for reading */
+.back {
+  max-width: 40rem;
+  margin: 0 auto 1.5rem;
+  font-size: 0.95rem;
+}
+
+.back a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.back a:hover {
+  color: var(--ink);
+}
+
+.paper-full {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 4.5rem) clamp(1.5rem, 6vw, 4rem);
+  box-sizing: border-box;
+}
+
+.paper-full h1 {
+  font-size: clamp(1.9rem, 5vw, 2.6rem);
+  margin-bottom: 2rem;
+}
+
+.paper-full .paper-text {
+  font-size: 1.12rem;
+}
+
+.paper-category {
+  font-family: var(--serif-display);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--ink-soft);
+  margin: 0 0 0.5rem;
+}
+
+@media (max-width: 40rem) {
+  .site-header {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+
+  .papers {
+    grid-template-columns: 1fr;
+  }
+
+  .paper-mini {
+    height: 16rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .papers li {
+    transition: none;
+  }
+}

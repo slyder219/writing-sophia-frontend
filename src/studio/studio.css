@@ -1,0 +1,112 @@
+/* Utilitarian editor UI, scoped under .studio */
+.studio {
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+  color: #1a1a1a;
+  background: #fafafa;
+}
+
+.studio-header {
+  padding: 1rem;
+}
+
+.studio-header a {
+  color: #555;
+}
+
+.studio main {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 1rem 4rem;
+}
+
+.studio .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 20rem;
+  margin: 10vh auto 0;
+}
+
+.studio input,
+.studio textarea,
+.studio button,
+.studio select {
+  font: inherit;
+  padding: 0.5rem;
+}
+
+.studio .link {
+  background: none;
+  border: none;
+  color: #555;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.studio .error {
+  color: #cf222e;
+}
+
+.studio .success {
+  color: #1a7f37;
+}
+
+.studio .muted {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.studio .dashboard {
+  margin-top: 1rem;
+}
+
+.studio .tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.studio .tabs button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.studio .tabs button.active {
+  border-bottom: 2px solid #1a1a1a;
+  font-weight: 600;
+}
+
+.studio .panel,
+.studio .stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.studio .row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.studio .works {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.studio .works li {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
