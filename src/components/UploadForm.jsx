@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { extractText, normalize } from '../lib/extractText'
+import CategorySelect from './CategorySelect'
 
 // Shared by Upload (new work) and Manage → Replace (existing work).
 // Only the text is saved: a chosen file is converted to raw text in the
@@ -7,11 +8,14 @@ import { extractText, normalize } from '../lib/extractText'
 export default function UploadForm({
   withTitle = true,
   initialText = '',
+  categories = [],
+  reloadCategories,
   submitLabel = 'Upload',
   onSubmit,
   onCancel,
 }) {
   const [title, setTitle] = useState('')
+  const [categoryId, setCategoryId] = useState(null)
   const [text, setText] = useState(initialText)
   const [source, setSource] = useState(null)
   const [extracting, setExtracting] = useState(false)
@@ -20,7 +24,7 @@ export default function UploadForm({
 
   const cleaned = normalize(text)
   const words = cleaned ? cleaned.split(/\s+/).length : 0
-  const ready = cleaned && (!withTitle || title.trim()) && !extracting && !busy
+  const ready = cleaned && (!withTitle || (title.trim() && categoryId)) && !extracting && !busy
 
   async function chooseFile(e) {
     const file = e.target.files[0]
@@ -43,7 +47,7 @@ export default function UploadForm({
     setBusy(true)
     setError(null)
     try {
-      await onSubmit(withTitle ? { title, text: cleaned } : { text: cleaned })
+      await onSubmit(withTitle ? { title, category_id: categoryId, text: cleaned } : { text: cleaned })
     } catch (err) {
       setError(err.message)
     } finally {
@@ -54,7 +58,18 @@ export default function UploadForm({
   return (
     <form className="stack upload-form" onSubmit={submit}>
       {withTitle && (
-        <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} required />
+        <>
+          <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} required />
+          <label className="row">
+            <span>Category</span>
+            <CategorySelect
+              value={categoryId}
+              onChange={setCategoryId}
+              categories={categories}
+              reloadCategories={reloadCategories}
+            />
+          </label>
+        </>
       )}
 
       <label className="stack">

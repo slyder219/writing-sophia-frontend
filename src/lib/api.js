@@ -15,6 +15,10 @@ export async function api(path, options = {}) {
   })
   if (res.status === 204) return null
   const data = await res.json().catch(() => null)
-  if (!res.ok) throw new Error(data?.detail || `Request failed (${res.status})`)
+  if (!res.ok) {
+    // FastAPI validation errors come back as a list of { msg }
+    const detail = Array.isArray(data?.detail) ? data.detail.map((d) => d.msg).join('; ') : data?.detail
+    throw new Error(detail || `Request failed (${res.status})`)
+  }
   return data
 }

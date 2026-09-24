@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { api } from '../lib/api'
 import UploadForm from './UploadForm'
 
-export default function UploadTab() {
+export default function UploadTab({ categories, reloadCategories }) {
   const [uploaded, setUploaded] = useState(null)
   // Remount the form after each upload to clear it
   const [formKey, setFormKey] = useState(0)
@@ -11,6 +11,7 @@ export default function UploadTab() {
     const work = await api('/works', { method: 'POST', body: JSON.stringify(body) })
     setUploaded(work)
     setFormKey((k) => k + 1)
+    reloadCategories()
   }
 
   return (
@@ -21,7 +22,7 @@ export default function UploadTab() {
           Saved “{uploaded.title}” ({uploaded.word_count.toLocaleString()} words)
         </p>
       )}
-      <UploadForm key={formKey} onSubmit={upload} />
+      <UploadForm key={formKey} onSubmit={upload} categories={categories} reloadCategories={reloadCategories} />
     </div>
   )
 }
