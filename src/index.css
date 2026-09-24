@@ -108,7 +108,7 @@ main {
   padding: 0.75rem;
 }
 
-.projects {
+.works {
   list-style: none;
   padding: 0;
   display: flex;
@@ -116,7 +116,7 @@ main {
   gap: 1rem;
 }
 
-.projects li {
+.works li {
   border: 1px solid #ddd;
   padding: 0.75rem;
   display: flex;

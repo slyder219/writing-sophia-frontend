@@ -8,8 +8,8 @@ export default function UploadTab() {
   const [formKey, setFormKey] = useState(0)
 
   async function upload(body) {
-    const project = await api('/projects', { method: 'POST', body })
-    setUploaded(project)
+    const work = await api('/works', { method: 'POST', body: JSON.stringify(body) })
+    setUploaded(work)
     setFormKey((k) => k + 1)
   }
 
@@ -18,7 +18,7 @@ export default function UploadTab() {
       <h3>Upload writing</h3>
       {uploaded && (
         <p className="success">
-          Uploaded “{uploaded.title}” ({uploaded.files.map((f) => f.name).join(', ')})
+          Saved “{uploaded.title}” ({uploaded.word_count.toLocaleString()} words)
         </p>
       )}
       <UploadForm key={formKey} onSubmit={upload} />

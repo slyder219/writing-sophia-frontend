@@ -1,8 +1,8 @@
-// Pull the raw text out of an uploaded file in the browser, so we can show
-// it for verification before upload and save it as the project's .txt copy.
+// Pull the raw text out of a chosen file in the browser. Only that text is
+// ever saved — the file itself never leaves the browser.
 // Heavy parsers are loaded on demand.
 
-export const MAX_UPLOAD_BYTES = 30 * 1024 * 1024
+export const MAX_FILE_BYTES = 50 * 1024 * 1024
 
 const BLOCK_TAGS = new Set([
   'address', 'article', 'aside', 'blockquote', 'br', 'dd', 'div', 'dl', 'dt', 'figcaption',
@@ -42,7 +42,7 @@ export function fileExtension(name) {
 }
 
 export async function extractText(file) {
-  if (file.size > MAX_UPLOAD_BYTES) throw new Error('File is larger than 30 MB.')
+  if (file.size > MAX_FILE_BYTES) throw new Error('File is larger than 50 MB.')
   const ext = fileExtension(file.name)
   if (UNSUPPORTED[ext]) throw new Error(UNSUPPORTED[ext])
 

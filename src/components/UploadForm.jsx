@@ -1,30 +1,36 @@
 import { useState } from 'react'
 import { extractText, normalize } from '../lib/extractText'
 
-// Shared by Upload (new project) and Manage → Replace (existing project).
-// Extracts text client-side so the user can verify it before submitting.
-export default function UploadForm({ withTitle = true, submitLabel = 'Upload', onSubmit, onCancel }) {
-  const [mode, setMode] = useState('file')
+// Shared by Upload (new work) and Manage → Replace (existing work).
+// Only the text is saved: a chosen file is converted to raw text in the
+// browser and dropped into the editor so it can be tweaked before saving.
+export default function UploadForm({
+  withTitle = true,
+  initialText = '',
+  submitLabel = 'Upload',
+  onSubmit,
+  onCancel,
+}) {
   const [title, setTitle] = useState('')
-  const [file, setFile] = useState(null)
-  const [fileText, setFileText] = useState('')
-  const [pasted, setPasted] = useState('')
+  const [text, setText] = useState(initialText)
+  const [source, setSource] = useState(null)
   const [extracting, setExtracting] = useState(false)
   const [error, setError] = useState(null)
   const [busy, setBusy] = useState(false)
 
-  const text = mode === 'file' ? fileText : normalize(pasted)
-  const ready = text && (!withTitle || title.trim()) && !extracting && !busy
+  const cleaned = normalize(text)
+  const words = cleaned ? cleaned.split(/\s+/).length : 0
+  const ready = cleaned && (!withTitle || title.trim()) && !extracting && !busy
 
   async function chooseFile(e) {
-    const chosen = e.target.files[0] ?? null
-    setFile(chosen)
-    setFileText('')
+    const file = e.target.files[0]
+    e.target.value = ''
+    if (!file) return
     setError(null)
-    if (!chosen) return
     setExtracting(true)
     try {
-      setFileText(await extractText(chosen))
+      setText(await extractText(file))
+      setSource(file.name)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -34,15 +40,10 @@ export default function UploadForm({ withTitle = true, submitLabel = 'Upload', o
 
   async function submit(e) {
     e.preventDefault()
-    const body = new FormData()
-    if (withTitle) body.append('title', title)
-    body.append('text', text)
-    if (mode === 'file') body.append('file', file)
-
     setBusy(true)
     setError(null)
     try {
-      await onSubmit(body)
+      await onSubmit(withTitle ? { title, text: cleaned } : { text: cleaned })
     } catch (err) {
       setError(err.message)
     } finally {
@@ -50,43 +51,29 @@ export default function UploadForm({ withTitle = true, submitLabel = 'Upload', o
     }
   }
 
-  const words = text ? text.split(/\s+/).length : 0
-
   return (
     <form className="stack upload-form" onSubmit={submit}>
       {withTitle && (
         <input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} maxLength={200} required />
       )}
 
-      <div className="mode-toggle">
-        <label>
-          <input type="radio" checked={mode === 'file'} onChange={() => setMode('file')} /> Upload file
-        </label>
-        <label>
-          <input type="radio" checked={mode === 'paste'} onChange={() => setMode('paste')} /> Paste text
-        </label>
-      </div>
-
-      {mode === 'file' ? (
-        <input type="file" onChange={chooseFile} />
-      ) : (
-        <textarea rows={12} placeholder="Paste text here" value={pasted} onChange={(e) => setPasted(e.target.value)} />
-      )}
-
+      <label className="stack">
+        <span>Load text from a file (Word, PDF, RTF, ODT, EPUB, HTML, text…)</span>
+        <input type="file" onChange={chooseFile} disabled={extracting || busy} />
+      </label>
       {extracting && <p>Reading text from file…</p>}
-      {mode === 'file' && fileText && (
-        <details className="preview" open>
-          <summary>
-            Extracted text · {words.toLocaleString()} words — check it looks right
-          </summary>
-          <pre>{fileText}</pre>
-        </details>
-      )}
+
+      <label className="stack">
+        <span>
+          Text {source && <span className="muted">· from {source}</span>} · {words.toLocaleString()} words — edit as needed
+        </span>
+        <textarea rows={16} placeholder="Paste or type text here" value={text} onChange={(e) => setText(e.target.value)} />
+      </label>
 
       {error && <p className="error">{error}</p>}
       <div className="row">
         <button type="submit" disabled={!ready}>
-          {busy ? 'Uploading…' : submitLabel}
+          {busy ? 'Saving…' : submitLabel}
         </button>
         {onCancel && (
           <button type="button" onClick={onCancel} disabled={busy}>
