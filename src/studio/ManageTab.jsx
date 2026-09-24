@@ -150,7 +150,11 @@ export default function ManageTab({ categories, reloadCategories }) {
                         {work.word_count.toLocaleString()} words · updated{' '}
                         {new Date(work.updated_at).toLocaleDateString()}
                       </span>
+                      <a href={`/w/${work.slug}`} target="_blank" rel="noreferrer" className="muted">
+                        View ↗
+                      </a>
                     </div>
+                    {work.excerpt && <p className="work-preview">{work.excerpt}</p>}
 
                     {replacing?.slug === work.slug ? (
                       <UploadForm
