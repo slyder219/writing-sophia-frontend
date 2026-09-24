@@ -23,3 +23,32 @@ main {
 .status-failed {
   color: #cf222e;
 }
+
+/* Placeholder auth styling — real design to come */
+.auth-form,
+.account {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 20rem;
+  margin: 2rem auto 0;
+}
+
+.auth-form input,
+.auth-form button,
+.account button {
+  font: inherit;
+  padding: 0.5rem;
+}
+
+.link {
+  background: none;
+  border: none;
+  color: #555;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.error {
+  color: #cf222e;
+}
