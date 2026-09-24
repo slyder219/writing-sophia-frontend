@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import Account from './components/Account'
 import AuthForm from './components/AuthForm'
+import Dashboard from './components/Dashboard'
 import { authClient } from './lib/auth'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
@@ -29,7 +29,7 @@ export default function App() {
       <p className={`status status-${status}`}>{STATUS_TEXT[status]}</p>
 
       {session.isPending ? null : session.data ? (
-        <Account key={session.data.user.id} />
+        <Dashboard key={session.data.user.id} />
       ) : (
         <AuthForm />
       )}

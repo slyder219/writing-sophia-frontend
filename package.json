@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@neondatabase/auth": "^0.5.0-beta",
+    "jszip": "^3.10.2",
+    "mammoth": "^1.12.3",
+    "pdfjs-dist": "^6.3.289",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
