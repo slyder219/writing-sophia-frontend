@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { loadLibrary } from '../lib/works'
+import { cachedLibrary, loadLibrary } from '../lib/works'
 
 export default function useLibrary() {
-  const [state, setState] = useState({ library: null, error: null })
+  const [state, setState] = useState(() => ({ library: cachedLibrary(), error: null }))
 
   useEffect(() => {
+    if (state.library) return
     let live = true
     loadLibrary()
       .then((library) => live && setState({ library, error: null }))

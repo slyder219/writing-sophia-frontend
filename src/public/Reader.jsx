@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { loadText } from '../lib/works'
 import Layout from './Layout'
 import useLibrary from './useLibrary'
 
 export default function Reader() {
   const { slug } = useParams()
+  const location = useLocation()
+  const navigate = useNavigate()
   const { library, error: libraryError } = useLibrary()
   const [text, setText] = useState(null)
   const [error, setError] = useState(null)
@@ -48,7 +50,17 @@ export default function Reader() {
   return (
     <Layout>
       <nav className="back">
-        <Link to={category ? `/?c=${category.slug}` : '/'}>← All writing</Link>
+        <Link
+          to={{ pathname: '/', search: category ? `?c=${category.slug}` : '', hash: slug }}
+          onClick={(e) => {
+            // Opened from the list: step back to that same entry, like the browser button
+            if (!location.state?.fromList) return
+            e.preventDefault()
+            navigate(-1)
+          }}
+        >
+          ← All writing
+        </Link>
       </nav>
       {body}
     </Layout>

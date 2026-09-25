@@ -228,9 +228,30 @@ body {
   }
 }
 
+/* The sheet you just came back from, lit up for a moment */
+.papers li.lit .paper-mini {
+  animation: came-from 1.6s ease-out;
+}
+
+@keyframes came-from {
+  0%,
+  35% {
+    box-shadow:
+      0 0 0 3px rgba(176, 141, 87, 0.45),
+      0 4px 10px rgba(60, 45, 30, 0.08),
+      0 18px 30px -18px rgba(60, 45, 30, 0.25);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .papers li {
     transition: none;
+  }
+
+  .papers li.lit .paper-mini {
+    animation: none;
+    outline: 2px solid rgba(176, 141, 87, 0.6);
+    outline-offset: 2px;
   }
 }
 
