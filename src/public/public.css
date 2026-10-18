@@ -315,3 +315,225 @@ body {
   display: block;
   margin: -0.2rem 0; /* the artwork has generous padding */
 }
+
+/* Reactions and comments under a piece */
+.discussion {
+  max-width: 40rem;
+  margin: 2.5rem auto 0;
+  font-family: var(--serif-text);
+}
+
+.discussion-title {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin: 2.5rem 0 1rem;
+}
+
+.discussion-prompt {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+.reactions-compact {
+  justify-content: flex-start;
+  gap: 0.3rem;
+}
+
+.reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 2.25rem;
+  padding: 0.2rem 0.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.reactions-compact .reaction {
+  min-height: 1.9rem;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.85rem;
+}
+
+span.reaction {
+  cursor: default;
+}
+
+.reaction.mine {
+  border-color: #b08d57;
+  background: #f6eedf;
+}
+
+.reaction:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.reaction-count {
+  font-size: 0.85em;
+  color: var(--ink-soft);
+}
+
+.reaction-add {
+  color: var(--ink-soft);
+}
+
+.comments,
+.replies {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comments > li {
+  border-top: 1px solid var(--rule);
+  padding: 1.25rem 0;
+}
+
+.replies {
+  margin: 0.75rem 0 0 1.25rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--rule);
+}
+
+.replies > li + li {
+  margin-top: 1rem;
+}
+
+.comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.comment-author {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.author-badge {
+  font-family: var(--serif-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.comment-replying {
+  margin: 0.2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.comment-body {
+  margin: 0.4rem 0 0.6rem;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  line-height: 1.55;
+}
+
+.comment-deleted {
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0;
+}
+
+.comment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.9rem;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  padding: 0.3rem 0;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.text-button:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+.comment-form {
+  margin: 0.75rem 0 1rem;
+}
+
+.comment-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.comment-form textarea:focus-visible,
+.reaction:focus-visible,
+.text-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.comment-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 0.5rem;
+}
+
+.comment-form button[type='submit'] {
+  padding: 0.4rem 1.2rem;
+  border: none;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  cursor: pointer;
+}
+
+.comment-form button[type='submit']:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.char-count {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.comment-error {
+  color: #a3302a;
+  font-size: 0.9rem;
+  margin-right: auto;
+}

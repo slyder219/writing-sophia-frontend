@@ -41,7 +41,7 @@ export default function SiteBarLinks() {
   return (
     <>
       <span className="site-bar-who">
-        {current.name} · {current.role}
+        {current.username ? `@${current.username}` : current.name} · {current.role}
       </span>
       <span className="site-bar-links">
         {current.is_editor &&

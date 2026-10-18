@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { loadText } from '../lib/works'
+import Comments from './Comments'
 import Layout from './Layout'
 import useLibrary from './useLibrary'
 
@@ -63,6 +64,7 @@ export default function Reader() {
         </Link>
       </nav>
       {body}
+      {work && <Comments key={slug} slug={slug} />}
     </Layout>
   )
 }

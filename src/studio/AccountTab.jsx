@@ -1,15 +1,60 @@
 import { useState } from 'react'
+import { api } from '../lib/api'
 import { authClient } from '../lib/auth'
 
 export default function AccountTab({ me }) {
   return (
     <div className="panel">
       <p>
-        Signed in as {me.name} ({me.email}) · role: {me.role}
+        Signed in as {me.username ? `@${me.username}` : me.name} ({me.email}) · role: {me.role}
       </p>
+      <ChangeUsername current={me.username} />
       <ChangePassword />
       <button onClick={() => authClient.signOut()}>Sign out</button>
     </div>
+  )
+}
+
+function ChangeUsername({ current }) {
+  const [username, setUsername] = useState(current ?? '')
+  const [saved, setSaved] = useState(current)
+  const [message, setMessage] = useState(null)
+  const [busy, setBusy] = useState(false)
+
+  async function submit(e) {
+    e.preventDefault()
+    setBusy(true)
+    setMessage(null)
+    try {
+      const result = await api('/me/username', { method: 'PUT', body: JSON.stringify({ username }) })
+      setUsername(result.username)
+      setSaved(result.username)
+      setMessage({ text: 'Username saved' })
+    } catch (err) {
+      setMessage({ error: true, text: err.message })
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <form className="stack" onSubmit={submit}>
+      <h3>Username</h3>
+      {!saved && <p className="muted">Choose a username to comment. It’s shown on everything you post.</p>}
+      <input
+        placeholder="Username"
+        aria-label="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        pattern="[A-Za-z0-9_]{3,20}"
+        title="3–20 letters, numbers or _"
+        required
+      />
+      <button type="submit" disabled={busy || username.toLowerCase() === saved}>
+        Save username
+      </button>
+      {message && <p className={message.error ? 'error' : 'success'}>{message.text}</p>}
+    </form>
   )
 }
 

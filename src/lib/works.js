@@ -32,3 +32,11 @@ export async function loadText(slug) {
   if (!res.ok) throw new Error('Couldn’t load this piece')
   return res.text()
 }
+
+// Comments and reactions, published by the backend; none yet is a 404
+export async function loadDiscussion(slug) {
+  const res = await fetch(`${WORKS_URL}/works/${encodeURIComponent(slug)}/comments.json`)
+  if (res.status === 404) return { reactions: {}, comments: [] }
+  if (!res.ok) throw new Error('Couldn’t load the comments')
+  return res.json()
+}
